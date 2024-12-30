@@ -8,6 +8,20 @@ public class TrainController : MonoBehaviour
     public float slowSpeed = 5f;
     private bool isSlowingDown = false;
     private bool isStopped = false;
+    public static TrainController Instance; // Singleton için Instance tanýmý
+
+    private void Awake()
+    {
+        // Singleton kontrolü
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // Zaten bir Instance varsa, fazladan oluþturulaný yok et
+        }
+    }
 
     void Update()
     {
@@ -63,6 +77,7 @@ public class TrainController : MonoBehaviour
                 break;
             case "StopTrigger":
                 Stop();
+                GameManager.Instance.OpenUpgradePanel(); // GameManager üzerinden paneli aç
                 break;
             default:
                 break;
