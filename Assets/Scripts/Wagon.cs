@@ -26,7 +26,7 @@ public class Wagon : MonoBehaviour
             GameManager.Instance.totalCoins -= upgradeCost;
             GameManager.Instance.UpdateCoinUI();
 
-            GameObject currentWagon = gameObject;
+            GameObject currentWagon = this.gameObject;
 
             GameObject newWagon = Instantiate(
                 upgradePrefabs[upgradeLevel + 1],
@@ -35,9 +35,11 @@ public class Wagon : MonoBehaviour
                 currentWagon.transform.parent
             );
 
-            TrainController.Instance.ReplaceWagon(this.gameObject, newWagon.gameObject);
+            TrainController.Instance.ReplaceWagon(currentWagon, newWagon);
 
             Destroy(currentWagon);
+
+            upgradeLevel++; // Upgrade seviyesini artýr
         }
         else
         {

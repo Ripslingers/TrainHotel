@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public float wagonSpacing = 2f; // Vagonlar arasýndaki mesafe
 
     [Header("Oyun Parametreleri")]
-    public int totalCoins = 1000; // Toplam coin
+    public int totalCoins = 100; // Toplam coin
     public int wagonCost = 50; // Bir vagonun maliyeti
     public Text coinText; // UI coin göstergesi
 
@@ -99,10 +99,5 @@ public class GameManager : MonoBehaviour
         {
             AddWagon(); // Her bir vagon ekleme iþlemi için mevcut fonksiyon çaðrýlýr
         }
-    }
-
-    public void UpgradeButton()
-    {
-        TrainController.Instance.UpgradeWagons();
     }
 }

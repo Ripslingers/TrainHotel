@@ -92,44 +92,30 @@ public class TrainController : MonoBehaviour
     }
     public void AddWagon()
     {
-        // Yeterli para varsa vagon ekle
-        if (GameManager.Instance.totalCoins >= GameManager.Instance.wagonCost)
+        Vector3 newPosition;
+        Quaternion newRotation;
+
+        if (wagons.Count > 0)
         {
-            Vector3 newPosition;
-
-            if (wagons.Count > 0)
-            {
-                // Son vagonun pozisyonunu al ve spacing uygula
-                Transform lastWagon = wagons[wagons.Count - 1].transform;
-                newPosition = lastWagon.position - lastWagon.forward * 16.5f; // Diðer vagonlar için spacing
-            }
-            else
-            {
-                // Ýlk vagon için küçük spacing
-                newPosition = wagonsParent.position - wagonsParent.forward * 2.0f; // Ýlk vagon için spacing
-            }
-
-            // Yeni vagonu oluþtur
-            GameObject newWagon = Instantiate(wagonPrefab, newPosition, wagonsParent.rotation, wagonsParent);
-            wagons.Add(newWagon);
-
-            // Vagon maliyetini düþ
-            GameManager.Instance.totalCoins -= GameManager.Instance.wagonCost;
-
-            // Para miktarýný güncelle
-            GameManager.Instance.UpdateCoinUI();
+            GameObject lastWagon = wagons[wagons.Count - 1];
+            newPosition = lastWagon.transform.position - lastWagon.transform.forward * 16.5f;
+            newRotation = lastWagon.transform.rotation;
         }
         else
         {
-            Debug.Log("Yeterli paranýz yok!"); // Geri bildirim mesajý
+            newPosition = wagonsParent.position - wagonsParent.forward * 2.0f;
+            newRotation = wagonsParent.rotation;
         }
+
+        GameObject newWagon = Instantiate(wagonPrefab, newPosition, newRotation, wagonsParent); // Parent ayarý burada
+        wagons.Add(newWagon);
     }
 
     public void UpgradeWagons()
     {
-        foreach (GameObject wagonObj in wagons) // Eðer wagons listesi GameObject türündeyse
+        foreach (GameObject wagonObject in wagons) // Tüm vagon GameObject'lerini dolaþ
         {
-            Wagon wagon = wagonObj.GetComponent<Wagon>(); // GameObject'ten Wagon bileþenini al
+            Wagon wagon = wagonObject.GetComponent<Wagon>(); // GameObject'ten Wagon bileþenini al
             if (wagon != null && wagon.upgradeLevel < wagon.upgradePrefabs.Length - 1)
             {
                 wagon.UpgradeWagon();
@@ -140,19 +126,17 @@ public class TrainController : MonoBehaviour
         Debug.Log("Tüm vagonlar maksimum seviyeye ulaþtý!");
     }
 
-    public void ReplaceWagon(GameObject oldWagonObject, GameObject newWagonObject)
+    public void ReplaceWagon(GameObject oldWagon, GameObject newWagon)
     {
-        Wagon oldWagon = oldWagonObject.GetComponent<Wagon>();
-        Wagon newWagon = newWagonObject.GetComponent<Wagon>();
-
-        if (oldWagon != null && newWagon != null)
+        int index = wagons.IndexOf(oldWagon); // Vagon listesinden eski vagonu bul
+        if (index != -1)
         {
-            int index = wagons.IndexOf(oldWagonObject);
-
-            if (index != -1)
-            {
-                wagons[index] = newWagonObject; // Eski GameObject'i yeni GameObject ile deðiþtir
-            }
+            wagons[index] = newWagon; // Yeni vagonu listeye ekle
+            Destroy(oldWagon); // Eski vagonu yok et
+        }
+        else
+        {
+            Debug.LogWarning("Deðiþtirilecek vagon bulunamadý.");
         }
     }
 }
