@@ -4,8 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - StationTrigger
-  - StopStationTrigger
+  - Camera1
+  - Camera2
+  - Camera3
+  - SlowTrigger1
+  - SlowTrigger2
+  - SlowTrigger3
+  - StopTrigger
+  - SlowTrigger4
+  - SlowTrigger5
   layers:
   - Default
   - TransparentFX

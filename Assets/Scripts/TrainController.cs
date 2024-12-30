@@ -4,71 +4,67 @@ using UnityEngine;
 
 public class TrainController : MonoBehaviour
 {
-    public float speed = 25f;       // Normal hýz
-    public float slowSpeed = 5f;   // Yavaþ hýz
-    private bool isSlowingDown = false; // Yavaþlama durumu
-    private bool isStopped = false;    // Durma durumu
+    public float speed = 25f;
+    public float slowSpeed = 5f;
+    private bool isSlowingDown = false;
+    private bool isStopped = false;
 
     void Update()
     {
         if (isStopped)
         {
-            return; // Tren tamamen durduysa hareket etmeyecek
+            return;
         }
 
         float currentSpeed = isSlowingDown ? slowSpeed : speed;
         transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
     }
 
-    // Hýz ayarý
     public void SetSpeed(float newSpeed)
     {
         speed = newSpeed;
-        isSlowingDown = false; // Hýz doðrudan ayarlandýðýnda yavaþlama iptal edilir
+        isSlowingDown = false;
     }
 
-    // Tren yavaþlar
     public void SlowDown()
     {
         isSlowingDown = true;
     }
 
-    // Tren durur
     public void Stop()
     {
         isStopped = true;
     }
 
-    // Tren yeniden baþlar
     public void Resume()
     {
         isStopped = false;
         isSlowingDown = false;
     }
 
-    // Tetikleyiciye göre hýz ayarý
     private void OnTriggerEnter(Collider other)
     {
         switch (other.tag)
         {
             case "SlowTrigger1":
-                SetSpeed(17f);
-                Debug.Log("Hýz 17'ye ayarlandý.");
+                SetSpeed(20f);
                 break;
             case "SlowTrigger2":
-                SetSpeed(10f);
-                Debug.Log("Hýz 10'a ayarlandý.");
+                SetSpeed(13f);
                 break;
             case "SlowTrigger3":
-                SetSpeed(5f);
-                Debug.Log("Hýz 5'e ayarlandý.");
+                SetSpeed(8f);
+                break;
+            case "SlowTrigger4":
+                SetSpeed(4f);
+                break;
+            case "SlowTrigger5":
+                SetSpeed(2f);
                 break;
             case "StopTrigger":
                 Stop();
-                Debug.Log("Tren durduruldu.");
                 break;
             default:
-                Debug.LogWarning($"Bilinmeyen tetikleyici: {other.tag}");
                 break;
         }
     }
