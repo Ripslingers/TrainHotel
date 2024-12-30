@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
-
 public class TrainController : MonoBehaviour
 {
     public float speed = 25f;
@@ -92,23 +90,40 @@ public class TrainController : MonoBehaviour
     }
     public void AddWagon()
     {
-        Vector3 newPosition;
-        Quaternion newRotation;
+        int wagonCost = 50; // Bir vagonun maliyeti (örneðin 50 coin)
 
-        if (wagons.Count > 0)
+        // Yeterli para kontrolü
+        if (GameManager.Instance.totalCoins >= wagonCost)
         {
-            GameObject lastWagon = wagons[wagons.Count - 1];
-            newPosition = lastWagon.transform.position - lastWagon.transform.forward * 16.5f;
-            newRotation = lastWagon.transform.rotation;
+            // Para düþ
+            GameManager.Instance.totalCoins -= wagonCost;
+
+            // Yeni vagon oluþturma iþlemleri
+            Vector3 newPosition;
+            Quaternion newRotation;
+
+            if (wagons.Count > 0)
+            {
+                GameObject lastWagon = wagons[wagons.Count - 1];
+                newPosition = lastWagon.transform.position - lastWagon.transform.forward * 16.5f;
+                newRotation = lastWagon.transform.rotation;
+            }
+            else
+            {
+                newPosition = wagonsParent.position - wagonsParent.forward * 2.0f;
+                newRotation = wagonsParent.rotation;
+            }
+
+            GameObject newWagon = Instantiate(wagonPrefab, newPosition, newRotation, wagonsParent);
+            wagons.Add(newWagon);
+
+            // Para UI'sini güncelle
+            GameManager.Instance.UpdateCoinUI();
         }
         else
         {
-            newPosition = wagonsParent.position - wagonsParent.forward * 2.0f;
-            newRotation = wagonsParent.rotation;
+            Debug.Log("Yeterli paranýz yok!");
         }
-
-        GameObject newWagon = Instantiate(wagonPrefab, newPosition, newRotation, wagonsParent); // Parent ayarý burada
-        wagons.Add(newWagon);
     }
 
     public void UpgradeWagons()
