@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 470802}
   - component: {fileID: 3333824}
   - component: {fileID: 2387234}
+  - component: {fileID: -5193027523209165230}
   m_Layer: 0
   m_Name: SM_Veh_Bullet_Carriage_02
   m_TagString: Untagged
@@ -83,3 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5193027523209165230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0afc9158ba7b745a617f4b6bbd002c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeLevel: 0
+  upgradePrefabs:
+  - {fileID: 0}
+  - {fileID: 195512, guid: 4b00081152f18ef419d0ac7626f86462, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  upgradeCost: 50

@@ -4,19 +4,44 @@ using UnityEngine;
 
 public class Wagon : MonoBehaviour
 {
-    public int upgradeLevel = 0; // Mevcut geliþtirme seviyesi
-    public int[] coinPerUpgrade = { 2, 4, 6, 10 }; // Seviyelere göre kazanç
+    public int upgradeLevel = 0; // Mevcut seviye
+    public GameObject[] upgradePrefabs; // Her seviye için prefab
+    public int upgradeCost = 50; // Upgrade maliyeti
 
     public int GetCoins()
     {
-        return coinPerUpgrade[upgradeLevel];
+        return (upgradeLevel + 1) * 2; // Örneðin: Seviye 1 = 2 coin
     }
 
     public void UpgradeWagon()
     {
-        if (upgradeLevel < coinPerUpgrade.Length - 1)
+        if (upgradeLevel >= upgradePrefabs.Length - 1)
         {
-            upgradeLevel++;
+            Debug.Log("Bu vagon maksimum seviyeye ulaþtý.");
+            return;
+        }
+
+        if (GameManager.Instance.totalCoins >= upgradeCost)
+        {
+            GameManager.Instance.totalCoins -= upgradeCost;
+            GameManager.Instance.UpdateCoinUI();
+
+            GameObject currentWagon = gameObject;
+
+            GameObject newWagon = Instantiate(
+                upgradePrefabs[upgradeLevel + 1],
+                currentWagon.transform.position,
+                currentWagon.transform.rotation,
+                currentWagon.transform.parent
+            );
+
+            TrainController.Instance.ReplaceWagon(this.gameObject, newWagon.gameObject);
+
+            Destroy(currentWagon);
+        }
+        else
+        {
+            Debug.Log("Yeterli paranýz yok!");
         }
     }
 }
