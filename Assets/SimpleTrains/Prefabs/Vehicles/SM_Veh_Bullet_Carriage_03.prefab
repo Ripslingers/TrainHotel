@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 453918}
   - component: {fileID: 3373038}
   - component: {fileID: 2325586}
-  - component: {fileID: 1002482415722317612}
+  - component: {fileID: 2073639289913478450}
   m_Layer: 0
   m_Name: SM_Veh_Bullet_Carriage_03
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1002482415722317612
+--- !u!114 &2073639289913478450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   upgradeLevel: 0
   upgradePrefabs:
   - {fileID: 0}
+  - {fileID: 130116}
   - {fileID: 152902, guid: 92eecb3f60603a94aa50d0743325d452, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  upgradeCost: 50
+  - {fileID: 195512, guid: 4b00081152f18ef419d0ac7626f86462, type: 3}
+  upgradeCost: 300

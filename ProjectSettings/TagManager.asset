@@ -13,6 +13,10 @@ TagManager:
   - StopTrigger
   - SlowTrigger4
   - SlowTrigger5
+  - StartTrigger
+  - FastTrigger1
+  - FastTrigger2
+  - FastTrigger3
   layers:
   - Default
   - TransparentFX

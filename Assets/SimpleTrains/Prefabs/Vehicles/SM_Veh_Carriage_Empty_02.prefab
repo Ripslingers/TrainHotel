@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 437974}
   - component: {fileID: 3399788}
   - component: {fileID: 2358688}
-  - component: {fileID: 3425837687629040131}
+  - component: {fileID: -8505259222963055218}
   m_Layer: 0
   m_Name: SM_Veh_Carriage_Empty_02
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3425837687629040131
+--- !u!114 &-8505259222963055218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,6 +100,6 @@ MonoBehaviour:
   upgradePrefabs:
   - {fileID: 0}
   - {fileID: 130116, guid: 7d99ccecc72ba624bb85a93bb0fbf7e8, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  upgradeCost: 50
+  - {fileID: 152902, guid: 92eecb3f60603a94aa50d0743325d452, type: 3}
+  - {fileID: 195512, guid: 4b00081152f18ef419d0ac7626f86462, type: 3}
+  upgradeCost: 100

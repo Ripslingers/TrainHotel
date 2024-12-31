@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TrainController : MonoBehaviour
 {
-    public float speed = 25f;
+    public float speed = 2f;
     public float slowSpeed = 5f;
     private bool isSlowingDown = false;
     private bool isStopped = false;
@@ -12,7 +12,7 @@ public class TrainController : MonoBehaviour
     public Transform wagonsParent;
     public float wagonSpacing = 2f;
     public Text coinText; // Unity'deki bir Text nesnesine baðlayýn
-    private List<GameObject> wagons = new List<GameObject>();
+    public List<GameObject> wagons = new List<GameObject>(); // Public hale getirildi
     public static TrainController Instance; // Singleton için Instance tanýmý
 
     private void Awake()
@@ -30,7 +30,7 @@ public class TrainController : MonoBehaviour
 
     void Update()
     {
-        if (isStopped)
+        if (isStopped) // Eðer duraklatýlmýþsa tren hareket etmez
         {
             return;
         }
@@ -80,6 +80,18 @@ public class TrainController : MonoBehaviour
             case "SlowTrigger5":
                 SetSpeed(2f);
                 break;
+            case "StartTrigger":
+                SetSpeed(4f);
+                break;
+            case "FastTrigger1":
+                SetSpeed(10f);
+                break;
+            case "FastTrigger2":
+                SetSpeed(18f);
+                break;
+            case "FastTrigger3":
+                SetSpeed(25f);
+                break;
             case "StopTrigger":
                 Stop();
                 GameManager.Instance.OpenUpgradePanel();
@@ -90,41 +102,27 @@ public class TrainController : MonoBehaviour
     }
     public void AddWagon()
     {
-        int wagonCost = 50; // Bir vagonun maliyeti (örneðin 50 coin)
+        Vector3 newPosition;
+        Quaternion newRotation;
 
-        // Yeterli para kontrolü
-        if (GameManager.Instance.totalCoins >= wagonCost)
+        if (wagons.Count > 0)
         {
-            // Para düþ
-            GameManager.Instance.totalCoins -= wagonCost;
-
-            // Yeni vagon oluþturma iþlemleri
-            Vector3 newPosition;
-            Quaternion newRotation;
-
-            if (wagons.Count > 0)
-            {
-                GameObject lastWagon = wagons[wagons.Count - 1];
-                newPosition = lastWagon.transform.position - lastWagon.transform.forward * 16.5f;
-                newRotation = lastWagon.transform.rotation;
-            }
-            else
-            {
-                newPosition = wagonsParent.position - wagonsParent.forward * 2.0f;
-                newRotation = wagonsParent.rotation;
-            }
-
-            GameObject newWagon = Instantiate(wagonPrefab, newPosition, newRotation, wagonsParent);
-            wagons.Add(newWagon);
-
-            // Para UI'sini güncelle
-            GameManager.Instance.UpdateCoinUI();
+            GameObject lastWagon = wagons[wagons.Count - 1];
+            newPosition = lastWagon.transform.position - lastWagon.transform.forward * 16.5f;
+            newRotation = lastWagon.transform.rotation;
         }
         else
         {
-            Debug.Log("Yeterli paranýz yok!");
+            newPosition = wagonsParent.position - wagonsParent.forward * 2.0f;
+            newRotation = wagonsParent.rotation;
         }
+
+        GameObject newWagon = Instantiate(wagonPrefab, newPosition, newRotation, wagonsParent);
+        wagons.Add(newWagon);
+
+        Debug.Log("Vagon eklendi!");
     }
+
 
     public void UpgradeWagons()
     {
@@ -147,11 +145,13 @@ public class TrainController : MonoBehaviour
         if (index != -1)
         {
             wagons[index] = newWagon; // Yeni vagonu listeye ekle
-            Destroy(oldWagon); // Eski vagonu yok et
         }
         else
         {
             Debug.LogWarning("Deðiþtirilecek vagon bulunamadý.");
         }
+
+        // Eski vagonu sahneden kaldýr
+        Destroy(oldWagon);
     }
 }
