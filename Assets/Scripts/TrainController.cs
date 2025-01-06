@@ -14,6 +14,18 @@ public class TrainController : MonoBehaviour
     public Text coinText; // Unity'deki bir Text nesnesine baðlayýn
     public List<GameObject> wagons = new List<GameObject>(); // Public hale getirildi
     public static TrainController Instance; // Singleton için Instance tanýmý
+    private bool isOnSecondPath = false; // 2. yol kontrolü
+    public Transform mainTrack; // Ana yol (1. yol) için referans
+    public Transform secondTrack; // Ýkinci yol için referans
+    private Transform currentTrack; // Tren þu anda hangi yolda
+
+
+    void Start()
+    {
+        // Baþlangýçta ana yol (1. yol) olacak
+        currentTrack = mainTrack;
+    }
+
 
     private void Awake()
     {
@@ -30,12 +42,12 @@ public class TrainController : MonoBehaviour
 
     void Update()
     {
-        if (isStopped) // Eðer duraklatýlmýþsa tren hareket etmez
-        {
-            return;
-        }
+        if (isStopped) return;
 
-        float currentSpeed = isSlowingDown ? slowSpeed : speed;
+        // Tren hareket etmeye devam etsin
+        float currentSpeed = speed;
+
+        // Tren hangi yolda ilerliyor, ona göre hareket etsin
         transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
     }
 
@@ -153,5 +165,34 @@ public class TrainController : MonoBehaviour
 
         // Eski vagonu sahneden kaldýr
         Destroy(oldWagon);
+    }
+
+    // 2. yola gitme fonksiyonu
+    public void GoToSecondPath()
+    {
+        isOnSecondPath = true;
+        currentTrack = secondTrack; // Tren ikinci yola yönlendirilir
+        Debug.Log("Tren 2. yola gitti.");
+    }
+
+    // Düz gitme fonksiyonu
+    public void ContinueStraight()
+    {
+        isOnSecondPath = false;
+        currentTrack = mainTrack; // Tren ana yolda devam eder
+        Debug.Log("Tren düz yolda devam ediyor.");
+    }
+
+    public void StopTrain()
+    {
+        isStopped = true;
+        Debug.Log("Tren durdu.");
+    }
+
+    // Treni devam ettirme
+    public void ResumeTrain()
+    {
+        isStopped = false;
+        Debug.Log("Tren devam ediyor.");
     }
 }

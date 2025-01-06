@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject upgradePanel; // GameManager içinde tanýmlayýn
+    public GameObject taskPanel; // GameManager içinde tanýmlayýn
+
 
     [Header("Oyun Baþlatma")]
     public GameObject startButton; // Baþlat butonu referansý
@@ -128,6 +130,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CloseTaskPanel()
+    {
+        if (taskPanel != null)
+        {
+            taskPanel.SetActive(false); // Paneli kapat
+            TrainController.Instance.Resume(); // Treni yeniden baþlat
+        }
+    }
 
     public void AddMultipleWagons()
     {
