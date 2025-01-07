@@ -39,15 +39,12 @@ public class TrainPathController : MonoBehaviour, IGameTaskObserver
 
     private void ChangeToSecondPath()
     {
-        // Ýkinci yola geçiþ kodu burada olacak
-        // Örneðin:
-        // TrenController.Instance.ChangeTrackToSecondPath();
+        TrainController.Instance.GoToSecondPath();
     }
 
     private void ContinueStraightPath()
     {
-        // Düz yola devam etme kodu burada olacak
-        // Örneðin:
-        // TrenController.Instance.ChangeTrackToStraightPath();
+        TrainController.Instance.ContinueStraight();
     }
+
 }
